@@ -3,11 +3,19 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.devtools.DevTools;
+import org.openqa.selenium.devtools.v120.network.Network;
+import org.openqa.selenium.devtools.v122.network.model.Request;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -52,6 +60,21 @@ public class FrontTests {
         String currentUrl = driver.getCurrentUrl();
         assert (currentUrl.contains("highlights"));
     }
+
+//    @Test
+//    public void testUpdateHighlights() {
+//        driver.get("https://sb2clientstatic-altenar2-stage.biahosted.com/#/");
+//
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120));
+//        WebElement highlightsRequest = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='network-request-entry' and contains(text(), 'GetHighlights')]")));
+//
+//        assert (highlightsRequest != null);
+//
+//        WebElement responseTab = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='panel-response']")));
+//        String responseText = responseTab.getText();
+//
+//        assert (!responseText.isEmpty());
+//    }
 
     @AfterEach
     public void tearDown() {
