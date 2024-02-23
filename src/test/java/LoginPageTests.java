@@ -6,8 +6,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SeleniumTests {
+
+public class LoginPageTests {
     private WebDriver driver;
 
     @BeforeEach
@@ -52,6 +54,23 @@ public class SeleniumTests {
         WebElement errorMessage = driver.findElement(By.xpath("//li[contains(text(),'Provided username or password is incorrect')]"));
         assert (errorMessage.isDisplayed());
     }
+
+    @Test
+    public void testEmptyFieldsLogin() {
+        driver.get("https://sb2admin-altenar2-stage.biahosted.com/");
+
+        WebElement inputElement = driver.findElement(By.id("username_input"));
+        inputElement.clear();
+
+        WebElement passwordElement = driver.findElement(By.id("password_input"));
+        passwordElement.clear();
+
+        WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
+        loginButton.click();
+
+        assertEquals("https://sb2admin-altenar2-stage.biahosted.com/Account/Login?ReturnUrl=%2F", driver.getCurrentUrl());
+    }
+
 
     @AfterEach
     public void tearDown() {
