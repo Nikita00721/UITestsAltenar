@@ -43,6 +43,16 @@ public class FrontTests {
         assertEquals(expectedText3, actualText3);
     }
 
+    @Test
+    public void testOpenHighlights() throws InterruptedException {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://sb2clientstatic-altenar2-stage.biahosted.com/#/");
+        WebElement element = driver.findElement(By.xpath("//*[@id=\"sb\"]/div[2]/div[2]/div[2]/div[8]/div[3]/div"));
+        element.click();
+        String currentUrl = driver.getCurrentUrl();
+        assert (currentUrl.contains("highlights"));
+    }
+
     @AfterEach
     public void tearDown() {
         driver.quit();
