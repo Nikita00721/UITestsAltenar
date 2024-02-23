@@ -71,7 +71,6 @@ public class LoginPageTests {
         assertEquals("https://sb2admin-altenar2-stage.biahosted.com/Account/Login?ReturnUrl=%2F", driver.getCurrentUrl());
     }
 
-
     @AfterEach
     public void tearDown() {
         driver.quit();
