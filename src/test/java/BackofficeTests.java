@@ -10,6 +10,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class BackofficeTests {
     private WebDriver driver;
@@ -159,6 +161,49 @@ public class BackofficeTests {
         int countAfter = Integer.parseInt(element2.getText());
 
         assert countBefore < countAfter;
+    }
+    @Test
+    public void testSortSports() throws InterruptedException {
+        WebElement menuBtn = driver.findElement(By.id("menu_toggle"));
+        menuBtn.click();
+        WebElement skinManagementBtn = driver.findElement(By.cssSelector("#sidebar-menu > div > ul > li"));
+        skinManagementBtn.click();
+        WebElement highManagementBtn = driver.findElement(By.linkText("Highlights Manager"));
+        highManagementBtn.click();
+        WebElement configBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div/div"));
+        configBtn.click();
+
+        Thread.sleep(2000);
+        WebElement draggableElement1 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[2]/div/div[1]/div"));
+        WebElement draggableElement2 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]/div"));
+
+        WebElement textDraggableElement1 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]"));
+        WebElement textDraggableElement2 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[2]/div/div[1]"));
+
+        String textBeforeDrag1 = textDraggableElement1.getText();
+        String textBeforeDrag2 = textDraggableElement2.getText();
+
+        Actions actions = new Actions(driver);
+
+        actions.clickAndHold(draggableElement1)
+                .pause(Duration.ofSeconds(1))
+                .moveToElement(draggableElement2)
+                .pause(Duration.ofSeconds(1))
+                .moveByOffset(0, -50) // Понимаю, что так лучше не делать, но выбора нет, 3 часа уже сижу, не работает по-другому
+                .pause(Duration.ofSeconds(1))
+                .release()
+                .build()
+                .perform();
+        Thread.sleep(2000);
+
+
+        String textAfterDrag2 = textDraggableElement1.getText();
+        String textAfterDrag1 = textDraggableElement2.getText();
+
+        assertNotEquals(textBeforeDrag1, textAfterDrag1);
+        assertNotEquals(textBeforeDrag2, textAfterDrag2);
+        assertEquals(textBeforeDrag1, textAfterDrag2);
+        assertEquals(textBeforeDrag2, textAfterDrag1);
     }
 
     @AfterEach
