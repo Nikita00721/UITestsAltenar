@@ -17,11 +17,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BackofficeTests {
     private WebDriver driver;
@@ -232,7 +232,35 @@ public class BackofficeTests {
 
         assertEquals(beforeCount-1, afterCount);
     }
+    @Test
+    public void testStatusEvent() throws InterruptedException {
+        WebElement menuBtn = driver.findElement(By.id("menu_toggle"));
+        menuBtn.click();
+        WebElement skinManagementBtn = driver.findElement(By.cssSelector("#sidebar-menu > div > ul > li"));
+        skinManagementBtn.click();
+        WebElement highManagementBtn = driver.findElement(By.linkText("Highlights Manager"));
+        highManagementBtn.click();
+        WebElement configBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div/div"));
+        configBtn.click();
 
+        List<WebElement> promoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='0']"));
+        List<WebElement> noPromoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='1']"));
+        int beforePromoCount = promoElements.size();
+        int beforeNoPromoCount = noPromoElements.size();
+
+        WebElement firstElement = noPromoElements.get(noPromoElements.size()-1);
+        WebElement button = firstElement.findElement(By.cssSelector("[data-testid='LocalOfferIcon']"));
+        button.click();
+
+        List<WebElement> promoElements2 = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='0']"));
+        List<WebElement> noPromoElements2 = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='1']"));
+        int afterPromoCount = promoElements2.size();
+        int afterNoPromoCount = noPromoElements2.size();
+
+        assertEquals(beforePromoCount + 1, afterPromoCount);
+        assertEquals(beforeNoPromoCount - 1, afterNoPromoCount);
+
+    }
     @AfterEach
     public void tearDown() {
         driver.quit();
