@@ -6,7 +6,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class LoginPageTests {
@@ -32,7 +38,10 @@ public class LoginPageTests {
 
         WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
         loginButton.click();
-        assert driver.getTitle().contains("Home Page");
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.titleContains("Home Page"));
+        assertTrue(driver.getTitle().contains("Home Page"));
     }
 
     @Test
@@ -51,8 +60,10 @@ public class LoginPageTests {
         WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
         loginButton.click();
 
-        WebElement errorMessage = driver.findElement(By.xpath("//li[contains(text(),'Provided username or password is incorrect')]"));
-        assert (errorMessage.isDisplayed());
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[contains(text(),'Provided username or password is incorrect')]")));
+
+        assertTrue(errorMessage.isDisplayed());
     }
 
     @Test
