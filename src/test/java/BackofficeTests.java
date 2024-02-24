@@ -56,7 +56,6 @@ public class BackofficeTests {
 
         List<WebElement> beforeCheck = driver.findElements(By.cssSelector(".ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.Nfghw"));
         int beforeCount = beforeCheck.size();
-        System.out.println(beforeCount);
 
         WebElement plusBtn = driver.findElement(By.cssSelector("#root > div.sc-jNJNQp.itcayF.MuiContainer-root.MuiContainer-maxWidthLg.Containerstyles__Container-sc-5e10iy-0.cZPkBK > div > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.HighlightManagerDetailsstyles__SportsColumnWrapper-sc-164e4hn-0.kDELCj.zaIWL > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.AddSportTreestyles__AddSportsWrapper-sc-4ihpuk-0.Nfghw.jUlrGr > div"));
         plusBtn.click();
@@ -204,6 +203,34 @@ public class BackofficeTests {
         assertNotEquals(textBeforeDrag2, textAfterDrag2);
         assertEquals(textBeforeDrag1, textAfterDrag2);
         assertEquals(textBeforeDrag2, textAfterDrag1);
+    }
+    @Test
+    public void testDeleteSport(){
+        WebElement menuBtn = driver.findElement(By.id("menu_toggle"));
+        menuBtn.click();
+        WebElement skinManagementBtn = driver.findElement(By.cssSelector("#sidebar-menu > div > ul > li"));
+        skinManagementBtn.click();
+        WebElement highManagementBtn = driver.findElement(By.linkText("Highlights Manager"));
+        highManagementBtn.click();
+        WebElement configBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div/div"));
+        configBtn.click();
+
+        List<WebElement> beforeCheck = driver.findElements(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div"));
+        int beforeCount = beforeCheck.size();
+
+        WebElement checkSport = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]/span/input"));
+        checkSport.click();
+
+        WebElement deleteBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[3]/span/button"));
+        deleteBtn.click();
+
+        WebElement saveBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[1]/button"));
+        saveBtn.click();
+
+        List<WebElement> afterCheck = driver.findElements(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div"));
+        int afterCount = afterCheck.size();
+
+        assertEquals(beforeCount-1, afterCount);
     }
 
     @AfterEach
