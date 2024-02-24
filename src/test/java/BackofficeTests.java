@@ -2,12 +2,18 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -115,6 +121,44 @@ public class BackofficeTests {
         saveBtn.click();
 
         assertEquals(countHighilghtsBefore.size(), countHighilghtsAfter.size()-1);
+    }
+
+    @Test
+    public void testChageDate() throws InterruptedException {
+        WebElement menuBtn = driver.findElement(By.id("menu_toggle"));
+        menuBtn.click();
+        WebElement skinManagementBtn = driver.findElement(By.cssSelector("#sidebar-menu > div > ul > li"));
+        skinManagementBtn.click();
+        WebElement highManagementBtn = driver.findElement(By.linkText("Highlights Manager"));
+        highManagementBtn.click();
+        WebElement configBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div/div"));
+        configBtn.click();
+
+        WebElement parentElement = driver.findElement(By.className("SportsTreestyles__SettingsSportList-sc-lmb9fb-1"));
+        List<WebElement> childElements = parentElement.findElements(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0"));
+        WebElement element = childElements.get(0).findElement(By.cssSelector("span.SportTreeItemstyles__CountWrapper-sc-5zup7e-1.liwxjR"));
+        int countBefore = Integer.parseInt(element.getText());
+
+        String xpath = "/html/body/div[1]/div/div[3]/div/div[1]/div/div[2]/div[4]/div/div[1]/div[2]/div[3]/div/div/input";
+
+        WebElement inputDate = driver.findElement(By.xpath(xpath));
+        String currentValue = inputDate.getAttribute("value");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime currentDateTime = LocalDateTime.parse(currentValue, formatter);
+        LocalDateTime updatedDateTime = currentDateTime.plusYears(2);
+        int year = updatedDateTime.getYear();
+        String updatedYearString = String.valueOf(year);
+        inputDate.click();
+        inputDate.sendKeys(updatedYearString);
+
+        Thread.sleep(5000);
+
+        WebElement parentElement2 = driver.findElement(By.className("SportsTreestyles__SettingsSportList-sc-lmb9fb-1"));
+        List<WebElement> childElements2 = parentElement2.findElements(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0"));
+        WebElement element2 = childElements2.get(0).findElement(By.cssSelector("span.SportTreeItemstyles__CountWrapper-sc-5zup7e-1.liwxjR"));
+        int countAfter = Integer.parseInt(element2.getText());
+
+        assert countBefore < countAfter;
     }
 
     @AfterEach
