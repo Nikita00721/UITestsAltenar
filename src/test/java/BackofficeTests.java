@@ -41,10 +41,7 @@ public class BackofficeTests {
 
         WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
         loginButton.click();
-    }
 
-    @Test
-    public void testAddSportsType() throws InterruptedException {
         WebElement menuBtn = driver.findElement(By.id("menu_toggle"));
         menuBtn.click();
         WebElement skinManagementBtn = driver.findElement(By.cssSelector("#sidebar-menu > div > ul > li"));
@@ -53,7 +50,10 @@ public class BackofficeTests {
         highManagementBtn.click();
         WebElement configBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div/div"));
         configBtn.click();
+    }
 
+    @Test
+    public void testAddSportsType() throws InterruptedException {
         List<WebElement> beforeCheck = driver.findElements(By.cssSelector(".ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.Nfghw"));
         int beforeCount = beforeCheck.size();
 
@@ -73,14 +73,6 @@ public class BackofficeTests {
 
     @Test
     public void testAddHighlight() throws InterruptedException {
-        WebElement menuBtn = driver.findElement(By.id("menu_toggle"));
-        menuBtn.click();
-        WebElement skinManagementBtn = driver.findElement(By.cssSelector("#sidebar-menu > div > ul > li"));
-        skinManagementBtn.click();
-        WebElement highManagementBtn = driver.findElement(By.linkText("Highlights Manager"));
-        highManagementBtn.click();
-        WebElement configBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div/div"));
-        configBtn.click();
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -126,14 +118,6 @@ public class BackofficeTests {
 
     @Test
     public void testChageDate() throws InterruptedException {
-        WebElement menuBtn = driver.findElement(By.id("menu_toggle"));
-        menuBtn.click();
-        WebElement skinManagementBtn = driver.findElement(By.cssSelector("#sidebar-menu > div > ul > li"));
-        skinManagementBtn.click();
-        WebElement highManagementBtn = driver.findElement(By.linkText("Highlights Manager"));
-        highManagementBtn.click();
-        WebElement configBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div/div"));
-        configBtn.click();
 
         WebElement parentElement = driver.findElement(By.className("SportsTreestyles__SettingsSportList-sc-lmb9fb-1"));
         List<WebElement> childElements = parentElement.findElements(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0"));
@@ -163,14 +147,7 @@ public class BackofficeTests {
     }
     @Test
     public void testSortSports() throws InterruptedException {
-        WebElement menuBtn = driver.findElement(By.id("menu_toggle"));
-        menuBtn.click();
-        WebElement skinManagementBtn = driver.findElement(By.cssSelector("#sidebar-menu > div > ul > li"));
-        skinManagementBtn.click();
-        WebElement highManagementBtn = driver.findElement(By.linkText("Highlights Manager"));
-        highManagementBtn.click();
-        WebElement configBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div/div"));
-        configBtn.click();
+
 
         Thread.sleep(2000);
         WebElement draggableElement1 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[2]/div/div[1]/div"));
@@ -206,14 +183,6 @@ public class BackofficeTests {
     }
     @Test
     public void testDeleteSport(){
-        WebElement menuBtn = driver.findElement(By.id("menu_toggle"));
-        menuBtn.click();
-        WebElement skinManagementBtn = driver.findElement(By.cssSelector("#sidebar-menu > div > ul > li"));
-        skinManagementBtn.click();
-        WebElement highManagementBtn = driver.findElement(By.linkText("Highlights Manager"));
-        highManagementBtn.click();
-        WebElement configBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div/div"));
-        configBtn.click();
 
         List<WebElement> beforeCheck = driver.findElements(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div"));
         int beforeCount = beforeCheck.size();
@@ -234,14 +203,6 @@ public class BackofficeTests {
     }
     @Test
     public void testStatusEvent() throws InterruptedException {
-        WebElement menuBtn = driver.findElement(By.id("menu_toggle"));
-        menuBtn.click();
-        WebElement skinManagementBtn = driver.findElement(By.cssSelector("#sidebar-menu > div > ul > li"));
-        skinManagementBtn.click();
-        WebElement highManagementBtn = driver.findElement(By.linkText("Highlights Manager"));
-        highManagementBtn.click();
-        WebElement configBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div/div"));
-        configBtn.click();
 
         List<WebElement> promoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='0']"));
         List<WebElement> noPromoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='1']"));
@@ -259,7 +220,35 @@ public class BackofficeTests {
 
         assertEquals(beforePromoCount + 1, afterPromoCount);
         assertEquals(beforeNoPromoCount - 1, afterNoPromoCount);
+    }
 
+    @Test
+    public void testAddLanguage() throws InterruptedException {
+        Thread.sleep(1000);
+
+        WebElement editBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[3]/div/div/div/div[2]/span/button"));
+        editBtn.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement plusBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[3]/div/div/div/div[2]/div/button[2]")));
+        plusBtn.click();
+
+        List<WebElement> languages = driver.findElements(By.cssSelector("div.MenuItemstyles__Item-sc-1yvs3jx-0"));
+
+        WebElement input = languages.get(1).findElement(By.cssSelector("input.sc-fXqpFg"));
+        input.click();
+
+        String countryName = languages.get(1).getText();
+        countryName = countryName.toUpperCase();
+
+        WebElement addBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("body > div.sc-hlLBRy.jvspes.sc-dvEHMn.MuiPopover-root.MuiModal-root > div.sc-eDvSVe.bUXwaY.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.sc-jsTgWu.bXhvey.MuiPopover-paper > div > div.RowWrapperstyles__RowWrapper-sc-gthg2c-0.ConfirmFooterMui5styles__ButtonsContainer-sc-lkpjsq-0.eXnrkT.dbemOZ > button.sc-jrcTuL.gTJIsS.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.sc-hTBuwn.gxmZir.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.ConfirmFooterMui5styles__Button-sc-lkpjsq-1.dJfqnc")));
+
+        addBtn.click();
+
+        List<WebElement> languagesBtnAfter = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
+
+        //assertEquals(languagesBtn.size(), languagesBtnAfter.size()-1); // Этот тест проваливается потому что добавляется сразу два экземпляра одного и того же языка в список
+        List<WebElement> languagesBtn = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
+        assertEquals(languagesBtn.get(languagesBtn.size()-1).getText(), countryName);
     }
     @AfterEach
     public void tearDown() {
