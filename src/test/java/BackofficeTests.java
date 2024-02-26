@@ -244,12 +244,45 @@ public class BackofficeTests {
 
         addBtn.click();
 
+        WebElement saveBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[1]/button"));
+        saveBtn.click();
+
         List<WebElement> languagesBtnAfter = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
 
         //assertEquals(languagesBtn.size(), languagesBtnAfter.size()-1); // Этот тест проваливается потому что добавляется сразу два экземпляра одного и того же языка в список
         List<WebElement> languagesBtn = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
         assertEquals(languagesBtn.get(languagesBtn.size()-1).getText(), countryName);
     }
+
+    @Test
+    public void testCopyEvents() throws InterruptedException {
+        Thread.sleep(1000);
+
+        List<WebElement> eventsDefault = driver.findElements(By.xpath("//div[@class='RowWrapperstyles__RowWrapper-sc-gthg2c-0 bVmYst']"));
+        List<String> eventDefaultTexts = new ArrayList<>();
+        for (WebElement event : eventsDefault) {
+            eventDefaultTexts.add(event.getText());
+        }
+
+        List<WebElement> languagesBtn = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
+        languagesBtn.get(1).click();
+
+        WebElement copyBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[4]/div/div[2]/div[2]/button"));
+        copyBtn.click();
+
+        //languagesBtn.get(0).click();
+        //languagesBtn.get(1).click();
+
+        List<WebElement> eventsDefaultAfter = driver.findElements(By.xpath("//div[@class='RowWrapperstyles__RowWrapper-sc-gthg2c-0 bVmYst']"));
+        List<String> eventDefaultTextsAfter = new ArrayList<>();
+        for (WebElement event : eventsDefaultAfter) {
+            eventDefaultTextsAfter.add(event.getText());
+        }
+
+        assertEquals(eventDefaultTexts, eventDefaultTextsAfter);
+    }
+
+
     @AfterEach
     public void tearDown() {
         driver.quit();
