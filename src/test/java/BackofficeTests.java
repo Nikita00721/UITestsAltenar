@@ -67,38 +67,25 @@ public class BackofficeTests {
     }
 
     @Test
-    public void testChageDate() throws InterruptedException {
+    public void testChangeDate() throws InterruptedException {
 
-        WebElement parentElement = driver.findElement(By.className("SportsTreestyles__SettingsSportList-sc-lmb9fb-1"));
-        List<WebElement> childElements = parentElement.findElements(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0"));
-        WebElement element = childElements.get(0).findElement(By.cssSelector("span.SportTreeItemstyles__CountWrapper-sc-5zup7e-1.liwxjR"));
-        int countBefore = Integer.parseInt(element.getText());
+        int countBefore = backofficePage.getSportsCountFromDate();
 
-        String xpath = "/html/body/div[1]/div/div[3]/div/div[1]/div/div[2]/div[4]/div/div[1]/div[2]/div[3]/div/div/input";
-
-        WebElement inputDate = driver.findElement(By.xpath(xpath));
-        String currentValue = inputDate.getAttribute("value");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        LocalDateTime currentDateTime = LocalDateTime.parse(currentValue, formatter);
+        LocalDateTime currentDateTime = LocalDateTime.now();
         LocalDateTime updatedDateTime = currentDateTime.plusYears(2);
-        int year = updatedDateTime.getYear();
-        String updatedYearString = String.valueOf(year);
-        inputDate.click();
-        inputDate.sendKeys(updatedYearString);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
+        String newYear = updatedDateTime.format(formatter);
+        backofficePage.changeDate(newYear);
 
         Thread.sleep(5000);
 
-        WebElement parentElement2 = driver.findElement(By.className("SportsTreestyles__SettingsSportList-sc-lmb9fb-1"));
-        List<WebElement> childElements2 = parentElement2.findElements(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0"));
-        WebElement element2 = childElements2.get(0).findElement(By.cssSelector("span.SportTreeItemstyles__CountWrapper-sc-5zup7e-1.liwxjR"));
-        int countAfter = Integer.parseInt(element2.getText());
+        int countAfter = backofficePage.getSportsCountFromDate();
 
-        assert countBefore < countAfter;
+        assertTrue(countBefore < countAfter);
     }
+
     @Test
     public void testSortSports() throws InterruptedException {
-
-
         Thread.sleep(2000);
         WebElement draggableElement1 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[2]/div/div[1]/div"));
         WebElement draggableElement2 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]/div"));
@@ -133,20 +120,17 @@ public class BackofficeTests {
     }
     @Test
     public void testDeleteSport(){
-
-        List<WebElement> beforeCheck = driver.findElements(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div"));
-        int beforeCount = beforeCheck.size();
+        int beforeCount = backofficePage.getTypeCount();
 
         WebElement checkSport = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]/span/input"));
         checkSport.click();
 
-        WebElement deleteBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[3]/span/button"));
+        WebElement deleteBtn = driver.findElement(By.cssSelector("#root > div.sc-jNJNQp.itcayF.MuiContainer-root.MuiContainer-maxWidthLg.Containerstyles__Container-sc-5e10iy-0.cZPkBK > div > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.HighlightManagerDetailsstyles__SportsColumnWrapper-sc-164e4hn-0.kDELCj.zaIWL > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.SportsTreestyles__SettingsSportWrapper-sc-lmb9fb-0.Nfghw.rphir > div > div.RowWrapperstyles__RowWrapper-sc-gthg2c-0.DeleteLabelstyles__LabelWrapper-sc-1618v5l-0.iAJxlh.dsZhJl > span > button"));
         deleteBtn.click();
 
         backofficePage.clickSaveButton();
 
-        List<WebElement> afterCheck = driver.findElements(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div"));
-        int afterCount = afterCheck.size();
+        int afterCount = backofficePage.getTypeCount();
 
         assertEquals(beforeCount-1, afterCount);
     }
@@ -181,21 +165,13 @@ public class BackofficeTests {
         WebElement plusBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[3]/div/div/div/div[2]/div/button[2]")));
         plusBtn.click();
 
-        List<WebElement> languages = driver.findElements(By.cssSelector("div.MenuItemstyles__Item-sc-1yvs3jx-0"));
-
-        WebElement input = languages.get(1).findElement(By.cssSelector("input.sc-fXqpFg"));
-        input.click();
-
-        String countryName = languages.get(1).getText();
-        countryName = countryName.toUpperCase();
+        String countryName = backofficePage.getCountryName(1);
 
         WebElement addBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("body > div.sc-hlLBRy.jvspes.sc-dvEHMn.MuiPopover-root.MuiModal-root > div.sc-eDvSVe.bUXwaY.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.sc-jsTgWu.bXhvey.MuiPopover-paper > div > div.RowWrapperstyles__RowWrapper-sc-gthg2c-0.ConfirmFooterMui5styles__ButtonsContainer-sc-lkpjsq-0.eXnrkT.dbemOZ > button.sc-jrcTuL.gTJIsS.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.sc-hTBuwn.gxmZir.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.ConfirmFooterMui5styles__Button-sc-lkpjsq-1.dJfqnc")));
 
         addBtn.click();
 
         backofficePage.clickSaveButton();
-
-        List<WebElement> languagesBtnAfter = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
 
         //assertEquals(languagesBtn.size(), languagesBtnAfter.size()-1); // Этот тест проваливается потому что добавляется сразу два экземпляра одного и того же языка в список
         List<WebElement> languagesBtn = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
@@ -206,11 +182,7 @@ public class BackofficeTests {
     public void testCopyEvents() throws InterruptedException {
         Thread.sleep(1000);
 
-        List<WebElement> eventsDefault = driver.findElements(By.xpath("//div[@class='RowWrapperstyles__RowWrapper-sc-gthg2c-0 bVmYst']"));
-        List<String> eventDefaultTexts = new ArrayList<>();
-        for (WebElement event : eventsDefault) {
-            eventDefaultTexts.add(event.getText());
-        }
+        List<String> eventDefaultTexts = backofficePage.getTextHighlights();
 
         List<WebElement> languagesBtn = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
         languagesBtn.get(1).click();
@@ -221,12 +193,7 @@ public class BackofficeTests {
         //languagesBtn.get(0).click();
         //languagesBtn.get(1).click();
 
-        List<WebElement> eventsDefaultAfter = driver.findElements(By.xpath("//div[@class='RowWrapperstyles__RowWrapper-sc-gthg2c-0 bVmYst']"));
-        List<String> eventDefaultTextsAfter = new ArrayList<>();
-        for (WebElement event : eventsDefaultAfter) {
-            eventDefaultTextsAfter.add(event.getText());
-        }
-
+        List<String> eventDefaultTextsAfter = backofficePage.getTextHighlights();
         assertEquals(eventDefaultTexts, eventDefaultTextsAfter);
     }
 

@@ -4,6 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BackofficePage {
@@ -106,5 +107,43 @@ public class BackofficePage {
     public int getHighlightsCount() {
         List<WebElement> highlightElements = driver.findElements(By.xpath("//div[@class='RowWrapperstyles__RowWrapper-sc-gthg2c-0 bVmYst']"));
         return highlightElements.size();
+    }
+
+    //для testChangeDate
+    public void changeDate(String newYear) {
+        WebElement inputDate = driver.findElement(By.xpath("/html/body/div[1]/div/div[3]/div/div[1]/div/div[2]/div[4]/div/div[1]/div[2]/div[3]/div/div/input"));
+        inputDate.click();
+        inputDate.sendKeys(newYear);
+    }
+
+    public int getSportsCountFromDate() {
+        WebElement parentElement = driver.findElement(By.className("SportsTreestyles__SettingsSportList-sc-lmb9fb-1"));
+        List<WebElement> childElements = parentElement.findElements(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0"));
+        WebElement element = childElements.get(0).findElement(By.cssSelector("span.SportTreeItemstyles__CountWrapper-sc-5zup7e-1.liwxjR"));
+        return Integer.parseInt(element.getText());
+    }
+
+    public int getTypeCount() {
+        List<WebElement> afterCheck = driver.findElements(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div"));
+        int rezult = afterCheck.size();
+        return rezult;
+    }
+
+    public List<String> getTextHighlights() {
+        List<WebElement> eventsDefault = driver.findElements(By.xpath("//div[@class='RowWrapperstyles__RowWrapper-sc-gthg2c-0 bVmYst']"));
+        List<String> eventDefaultTexts = new ArrayList<>();
+        for (WebElement event : eventsDefault) {
+            eventDefaultTexts.add(event.getText());
+        }
+        return eventDefaultTexts;
+    }
+
+    public String getCountryName(int index) {
+         List<WebElement> languages = driver.findElements(By.cssSelector("div.MenuItemstyles__Item-sc-1yvs3jx-0"));
+         WebElement input = languages.get(index).findElement(By.cssSelector("input.sc-fXqpFg"));
+         input.click();
+         String countryName = languages.get(index).getText();
+        countryName = countryName.toUpperCase();
+        return countryName;
     }
 }
