@@ -57,4 +57,54 @@ public class BackofficePage {
         WebElement saveButton = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div[1]/button"));
         saveButton.click();
     }
+
+    // для testAddSportsType
+    public void clickPlusButton() {
+        WebElement plusBtn = driver.findElement(By.cssSelector("#root > div.sc-jNJNQp.itcayF.MuiContainer-root.MuiContainer-maxWidthLg.Containerstyles__Container-sc-5e10iy-0.cZPkBK > div > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.HighlightManagerDetailsstyles__SportsColumnWrapper-sc-164e4hn-0.kDELCj.zaIWL > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.AddSportTreestyles__AddSportsWrapper-sc-4ihpuk-0.Nfghw.jUlrGr > div"));
+        plusBtn.click();
+    }
+
+    public void selectSportType(int index) {
+        List<WebElement> sportsCheck = driver.findElements(By.cssSelector(".RowWrapperstyles__RowWrapper-sc-gthg2c-0.AddSportTreeItemstyles__SportMenuItem-sc-1wt9mdf-0.bVmYst.euhOnO"));
+        sportsCheck.get(index).click();
+    }
+
+    public void clickApplyButton() {
+        WebElement applyBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[1]/div[2]/div/div/div[3]/button[2]"));
+        applyBtn.click();
+    }
+
+    public int getSportsCount() {
+        List<WebElement> sportsElements = driver.findElements(By.cssSelector(".ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.Nfghw"));
+        return sportsElements.size();
+    }
+
+    // для testAddHighlight
+    public void selectSport(int sportIndex) {
+        WebElement parentElement = driver.findElement(By.className("SportsTreestyles__SettingsSportList-sc-lmb9fb-1"));
+        List<WebElement> childElements = parentElement.findElements(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0"));
+        childElements.get(sportIndex).click();
+    }
+
+    public void selectCategory(int categoryIndex) {
+        WebElement newParentElement = driver.findElement(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0"));
+        List<WebElement> newChildElements = newParentElement.findElements(By.className("CategoryItemstyles__CategoryItemWrapper-sc-1t3o7aa-0"));
+        newChildElements.get(categoryIndex).click();
+    }
+
+    public void selectChampionship(int championshipIndex) {
+        WebElement nestedElement = driver.findElement(By.className("ChampItemstyles__ChampWrapper-sc-10265qg-0"));
+        nestedElement.click();
+    }
+
+    public void addHighlight() {
+        List<WebElement> eventElements = driver.findElements(By.cssSelector("div.RowWrapperstyles__RowWrapper-sc-gthg2c-0.EventItemstyles__CardWrapper-sc-1spfd22-0.dmWDC.hjGumc"));
+        WebElement addButton = eventElements.get(0).findElement(By.cssSelector("button[type='button']"));
+        addButton.click();
+    }
+
+    public int getHighlightsCount() {
+        List<WebElement> highlightElements = driver.findElements(By.xpath("//div[@class='RowWrapperstyles__RowWrapper-sc-gthg2c-0 bVmYst']"));
+        return highlightElements.size();
+    }
 }

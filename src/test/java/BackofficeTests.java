@@ -39,64 +39,31 @@ public class BackofficeTests {
 
     @Test
     public void testAddSportsType() throws InterruptedException {
-        List<WebElement> beforeCheck = driver.findElements(By.cssSelector(".ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.Nfghw"));
-        int beforeCount = beforeCheck.size();
+        int beforeCount = backofficePage.getSportsCount();
 
-        WebElement plusBtn = driver.findElement(By.cssSelector("#root > div.sc-jNJNQp.itcayF.MuiContainer-root.MuiContainer-maxWidthLg.Containerstyles__Container-sc-5e10iy-0.cZPkBK > div > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.HighlightManagerDetailsstyles__SportsColumnWrapper-sc-164e4hn-0.kDELCj.zaIWL > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.AddSportTreestyles__AddSportsWrapper-sc-4ihpuk-0.Nfghw.jUlrGr > div"));
-        plusBtn.click();
-        List<WebElement> sportsCheck = driver.findElements(By.cssSelector(".RowWrapperstyles__RowWrapper-sc-gthg2c-0.AddSportTreeItemstyles__SportMenuItem-sc-1wt9mdf-0.bVmYst.euhOnO"));
-        sportsCheck.get(1).click();
-        WebElement applyBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[1]/div[2]/div/div/div[3]/button[2]"));
-        applyBtn.click();
+        backofficePage.clickPlusButton();
+        backofficePage.selectSportType(1);
+        backofficePage.clickApplyButton();
+
         backofficePage.clickSaveButton();
+        int afterCount = backofficePage.getSportsCount();
 
-        List<WebElement> afterCheck = driver.findElements(By.cssSelector(".ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.Nfghw"));
-        int afterCount = afterCheck.size();
-        assertEquals(beforeCount, afterCount-1);
+        assertEquals(beforeCount +  1, afterCount);
     }
 
     @Test
     public void testAddHighlight() throws InterruptedException {
+        int beforeCount = backofficePage.getHighlightsCount();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        WebElement rootElement = driver.findElement(By.id("root"));
-        List<WebElement> childDivs = rootElement.findElements(By.xpath("./div[5]/div/div"));
-
-        List<WebElement> countHighilghtsBefore = driver.findElements(By.xpath("//div[@class='RowWrapperstyles__RowWrapper-sc-gthg2c-0 bVmYst']"));
-
-        int i = 0;
-        int numberOfEvents = 0;
-
-        while (numberOfEvents == 0) {
-            WebElement parentElement = driver.findElement(By.className("SportsTreestyles__SettingsSportList-sc-lmb9fb-1"));
-            List<WebElement> childElements = parentElement.findElements(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0"));
-            childElements.get(i).click();
-
-            WebElement newParentElement = driver.findElement(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0"));
-            List<WebElement> newChildElements = newParentElement.findElements(By.className("CategoryItemstyles__CategoryItemWrapper-sc-1t3o7aa-0"));
-            newChildElements.get(0).click();
-
-            WebElement nestedElement = driver.findElement(By.className("ChampItemstyles__ChampWrapper-sc-10265qg-0"));
-            nestedElement.click();
-
-            List<WebElement> eventElements = driver.findElements(By.cssSelector("div.RowWrapperstyles__RowWrapper-sc-gthg2c-0.EventItemstyles__CardWrapper-sc-1spfd22-0.dmWDC.hjGumc"));
-            numberOfEvents = eventElements.size();
-
-            if (numberOfEvents == 0) {
-                i++;
-            }
-        }
-
-        List<WebElement> eventElements = driver.findElements(By.cssSelector("div.RowWrapperstyles__RowWrapper-sc-gthg2c-0.EventItemstyles__CardWrapper-sc-1spfd22-0.dmWDC.hjGumc"));
-        WebElement addButton = eventElements.get(0).findElement(By.cssSelector("button[type='button']"));
-        addButton.click();
-
-        List<WebElement> countHighilghtsAfter = driver.findElements(By.xpath("//div[@class='RowWrapperstyles__RowWrapper-sc-gthg2c-0 bVmYst']"));
-
+        backofficePage.selectSport(0);
+        backofficePage.selectCategory(0);
+        backofficePage.selectChampionship(0);
+        Thread.sleep(2000);
+        backofficePage.addHighlight();
         backofficePage.clickSaveButton();
 
-        assertEquals(countHighilghtsBefore.size(), countHighilghtsAfter.size()-1);
+        int afterCount = backofficePage.getHighlightsCount();
+        assertEquals(beforeCount, afterCount -  1);
     }
 
     @Test
