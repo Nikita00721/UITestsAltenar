@@ -2,6 +2,7 @@ import io.qameta.allure.Description;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,9 +16,9 @@ import java.time.Duration;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@ExtendWith(TestListener.class)
 public class BackofficeTests {
-    private WebDriver driver;
+    protected static WebDriver driver;
     private BackofficePage backofficePage;
 
     @BeforeEach
@@ -42,7 +43,7 @@ public class BackofficeTests {
         //backofficePage.clickSaveButton();
         int afterCount = backofficePage.getSportsCount();
 
-        assertEquals(beforeCount +  1, afterCount);
+        assertEquals(beforeCount +  2, afterCount);
     }
 
     @Test
@@ -204,9 +205,8 @@ public class BackofficeTests {
         assertEquals(eventDefaultTexts, eventDefaultTextsAfter);
     }
 
-    @AfterEach
-    public void tearDown() {
-        driver.quit();
-    }
-
+//    @AfterEach
+//    public void tearDown() {
+//        driver.quit();
+//    }
 }
