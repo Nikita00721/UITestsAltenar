@@ -1,3 +1,4 @@
+import io.qameta.allure.Description;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,8 @@ public class LoginPageTests {
     }
 
     @Test
-    public void testLogin() {
+    @Description("B01 Авторизация в BO Highlight Manager с правильным логином и паролем")
+    public void loginTest() {
         driver.get("https://sb2admin-altenar2-stage.biahosted.com/");
         loginPage.acceptCookies();
         loginPage.setUsername("test_user_qa1");
@@ -29,7 +31,8 @@ public class LoginPageTests {
     }
 
     @Test
-    public void testInvalidLogin() {
+    @Description("B01 Авторизация в BO Highlight Manager с неправильным логином и паролем")
+    public void invalidLoginTest() {
         driver.get("https://sb2admin-altenar2-stage.biahosted.com/");
         loginPage.acceptCookies();
         loginPage.setUsername("invalid_username");
@@ -40,7 +43,8 @@ public class LoginPageTests {
     }
 
     @Test
-    public void testEmptyFieldsLogin() {
+    @Description("B01 Авторизация в BO Highlight Manager с пустым логином и паролем")
+    public void emptyFieldsLoginTest() {
         driver.get("https://sb2admin-altenar2-stage.biahosted.com/");
         loginPage.acceptCookies();
         loginPage.setUsername("");

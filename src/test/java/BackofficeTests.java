@@ -1,3 +1,4 @@
+import io.qameta.allure.Description;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,8 @@ public class BackofficeTests {
     }
 
     @Test
-    public void testAddSportsType() throws InterruptedException {
+    @Description("B02 Добавление видов спорта в Highlights manager, для которых в дальнейшем будут добавляться события")
+    public void addSportsTypeTest() throws InterruptedException {
         int beforeCount = backofficePage.getSportsCount();
 
         backofficePage.clickPlusButton();
@@ -44,7 +46,8 @@ public class BackofficeTests {
     }
 
     @Test
-    public void testAddHighlight() throws InterruptedException {
+    @Description("B03 Добавление события в Highlights вручную с помощью интерфейса Highlight Manager для языка default")
+    public void addHighlightTest() throws InterruptedException {
         int beforeCount = backofficePage.getHighlightsCount();
 
         backofficePage.selectSport(0);
@@ -59,7 +62,8 @@ public class BackofficeTests {
     }
 
     @Test
-    public void testChangeDate() throws InterruptedException {
+    @Description("B04 Изменение количества событий в списке добавления для вида спорта путем изменения фильтров по дате путем изменения значений в поле “To”")
+    public void changeDateTest() throws InterruptedException {
 
         int countBefore = backofficePage.getSportsCountFromDate();
 
@@ -77,7 +81,8 @@ public class BackofficeTests {
     }
 
     @Test
-    public void testSortSports() throws InterruptedException {
+    @Description("B05 Сортировка спортов на сайте backoffice с помощью drag-n-drop")
+    public void sortSportsTest() throws InterruptedException {
         Thread.sleep(2000);
         WebElement draggableElement1 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[2]/div/div[1]/div"));
         WebElement draggableElement2 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]/div"));
@@ -111,7 +116,8 @@ public class BackofficeTests {
         assertEquals(textBeforeDrag2, textAfterDrag1);
     }
     @Test
-    public void testDeleteSport(){
+    @Description("B06 Отключение добавленного спорта")
+    public void deleteSportTest(){
         int beforeCount = backofficePage.getTypeCount();
 
         WebElement checkSport = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]/span/input"));
@@ -127,7 +133,8 @@ public class BackofficeTests {
         assertEquals(beforeCount-1, afterCount);
     }
     @Test
-    public void testStatusEvent() throws InterruptedException {
+    @Description("B07 Выставление статуса событий")
+    public void statusEventTest() throws InterruptedException {
 
         List<WebElement> promoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='2']"));
         List<WebElement> noPromoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='0']"));
@@ -154,7 +161,8 @@ public class BackofficeTests {
     }
 
     @Test
-    public void testAddLanguage() throws InterruptedException {
+    @Description("B08 Добавление нового языка в Customization languages")
+    public void addLanguageTest() throws InterruptedException {
         Thread.sleep(1000);
 
         WebElement editBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[3]/div/div/div/div[2]/span/button"));
@@ -177,7 +185,8 @@ public class BackofficeTests {
     }
 
     @Test
-    public void testCopyEvents() throws InterruptedException {
+    @Description("B09 Копирование событий из default языка в любой другой")
+    public void copyEventsTest() throws InterruptedException {
         Thread.sleep(1000);
 
         List<String> eventDefaultTexts = backofficePage.getTextHighlights();

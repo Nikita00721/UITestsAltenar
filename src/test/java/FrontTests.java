@@ -1,4 +1,5 @@
 
+import io.qameta.allure.Description;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,8 @@ public class FrontTests {
     }
 
     @Test
-    public void testLanguageFront() throws InterruptedException {
+    @Description("F01 Открытие сайта пользователя под определенным языком")
+    public void languageFrontTest() throws InterruptedException {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         driver.get("https://sb2clientstatic-altenar2-stage.biahosted.com/?integration=skintest#/");
@@ -43,7 +45,8 @@ public class FrontTests {
     }
 
     @Test
-    public void testOpenHighlights() throws InterruptedException {
+    @Description("F03 Переход на страницу Highlights по спорту")
+    public void openHighlightsTest() throws InterruptedException {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://sb2clientstatic-altenar2-stage.biahosted.com/#/");
         WebElement element = driver.findElement(By.xpath("//*[@id=\"sb\"]/div[2]/div[2]/div[2]/div[8]/div[3]/div"));
@@ -53,7 +56,8 @@ public class FrontTests {
     }
 
 //    @Test
-//    public void testUpdateHighlights() {
+//    @Description("")
+//    public void updateHighlightsTest() {
 //        driver.get("https://sb2clientstatic-altenar2-stage.biahosted.com/#/");
 //
 //        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120));
