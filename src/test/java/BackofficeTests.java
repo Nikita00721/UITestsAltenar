@@ -2,23 +2,15 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.awt.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,7 +37,7 @@ public class BackofficeTests {
         backofficePage.selectSportType(1);
         backofficePage.clickApplyButton();
 
-        backofficePage.clickSaveButton();
+        //backofficePage.clickSaveButton();
         int afterCount = backofficePage.getSportsCount();
 
         assertEquals(beforeCount +  1, afterCount);
@@ -60,7 +52,7 @@ public class BackofficeTests {
         backofficePage.selectChampionship(0);
         Thread.sleep(2000);
         backofficePage.addHighlight();
-        backofficePage.clickSaveButton();
+        //backofficePage.clickSaveButton();
 
         int afterCount = backofficePage.getHighlightsCount();
         assertEquals(beforeCount, afterCount -  1);
@@ -77,7 +69,7 @@ public class BackofficeTests {
         String newYear = updatedDateTime.format(formatter);
         backofficePage.changeDate(newYear);
 
-        Thread.sleep(5000);
+        Thread.sleep(3000);
 
         int countAfter = backofficePage.getSportsCountFromDate();
 
@@ -128,7 +120,7 @@ public class BackofficeTests {
         WebElement deleteBtn = driver.findElement(By.cssSelector("#root > div.sc-jNJNQp.itcayF.MuiContainer-root.MuiContainer-maxWidthLg.Containerstyles__Container-sc-5e10iy-0.cZPkBK > div > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.HighlightManagerDetailsstyles__SportsColumnWrapper-sc-164e4hn-0.kDELCj.zaIWL > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.SportsTreestyles__SettingsSportWrapper-sc-lmb9fb-0.Nfghw.rphir > div > div.RowWrapperstyles__RowWrapper-sc-gthg2c-0.DeleteLabelstyles__LabelWrapper-sc-1618v5l-0.iAJxlh.dsZhJl > span > button"));
         deleteBtn.click();
 
-        backofficePage.clickSaveButton();
+        //backofficePage.clickSaveButton();
 
         int afterCount = backofficePage.getTypeCount();
 
@@ -137,19 +129,25 @@ public class BackofficeTests {
     @Test
     public void testStatusEvent() throws InterruptedException {
 
-        List<WebElement> promoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='0']"));
-        List<WebElement> noPromoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='1']"));
+        List<WebElement> promoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='2']"));
+        List<WebElement> noPromoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='0']"));
         int beforePromoCount = promoElements.size();
         int beforeNoPromoCount = noPromoElements.size();
+        System.out.println(beforeNoPromoCount);
+        System.out.println(beforePromoCount);
 
         WebElement firstElement = noPromoElements.get(noPromoElements.size()-1);
-        WebElement button = firstElement.findElement(By.cssSelector("[data-testid='LocalOfferIcon']"));
+        WebElement button = firstElement.findElement(By.xpath("//span[@aria-label='is promo']/button"));
+
         button.click();
 
-        List<WebElement> promoElements2 = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='0']"));
-        List<WebElement> noPromoElements2 = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='1']"));
+        List<WebElement> promoElements2 = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='2']"));
+        List<WebElement> noPromoElements2 = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='0']"));
         int afterPromoCount = promoElements2.size();
         int afterNoPromoCount = noPromoElements2.size();
+
+        System.out.println(afterNoPromoCount);
+        System.out.println(afterPromoCount);
 
         assertEquals(beforePromoCount + 1, afterPromoCount);
         assertEquals(beforeNoPromoCount - 1, afterNoPromoCount);
@@ -171,7 +169,7 @@ public class BackofficeTests {
 
         addBtn.click();
 
-        backofficePage.clickSaveButton();
+        //backofficePage.clickSaveButton();
 
         //assertEquals(languagesBtn.size(), languagesBtnAfter.size()-1); // Этот тест проваливается потому что добавляется сразу два экземпляра одного и того же языка в список
         List<WebElement> languagesBtn = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
@@ -196,7 +194,6 @@ public class BackofficeTests {
         List<String> eventDefaultTextsAfter = backofficePage.getTextHighlights();
         assertEquals(eventDefaultTexts, eventDefaultTextsAfter);
     }
-
 
     @AfterEach
     public void tearDown() {
