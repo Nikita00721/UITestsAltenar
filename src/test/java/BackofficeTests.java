@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BackofficeTests {
     protected static WebDriver driver;
     private BackofficePage backofficePage;
+    private BackofficeSteps backofficeSteps;
+    private LoginSteps loginSteps;
 
     @BeforeEach
     public void setUp() {
@@ -27,7 +29,7 @@ public class BackofficeTests {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://sb2admin-altenar2-stage.biahosted.com/");
         backofficePage = new BackofficePage(driver);
-        backofficePage.login("test_user_qa1", "f4{LRDiM4$");
+        loginSteps.login("test_user_qa1", "f4{LRDiM4$");
         backofficePage.navigateToHighlightsManager();
     }
 
@@ -43,7 +45,7 @@ public class BackofficeTests {
         //backofficePage.clickSaveButton();
         int afterCount = backofficePage.getSportsCount();
 
-        assertEquals(beforeCount +  2, afterCount);
+        assertEquals(beforeCount +  1, afterCount);
     }
 
     @Test

@@ -20,25 +20,27 @@ public class BackofficePage {
     private By sportsTypeLocator = By.cssSelector(".ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.Nfghw");
     private By addSportButtonLocator = By.cssSelector("#root > div.sc-jNJNQp.itcayF.MuiContainer-root.MuiContainer-maxWidthLg.Containerstyles__Container-sc-5e10iy-0.cZPkBK > div > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.HighlightManagerDetailsstyles__SportsColumnWrapper-sc-164e4hn-0.kDELCj.zaIWL > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.AddSportTreestyles__AddSportsWrapper-sc-4ihpuk-0.Nfghw.jUlrGr > div");
     private By configButtonLocator = By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div/div");
+    private By acceptCookieButton = By.id("accept-cookie-btn");
 
     public BackofficePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    public void login(String username, String password) {
-        WebElement acceptButton = driver.findElement(By.id("accept-cookie-btn"));
-        acceptButton.click();
 
-        WebElement inputElement = driver.findElement(usernameInputLocator);
-        inputElement.sendKeys(username);
-
-        WebElement passwordElement = driver.findElement(passwordInputLocator);
-        passwordElement.sendKeys(password);
-
-        WebElement loginButton = driver.findElement(loginButtonLocator);
-        loginButton.click();
-    }
+//    public void login(String username, String password) {
+//        WebElement acceptButton = driver.findElement(acceptCookieButton);
+//        acceptButton.click();
+//
+//        WebElement inputElement = driver.findElement(usernameInputLocator);
+//        inputElement.sendKeys(username);
+//
+//        WebElement passwordElement = driver.findElement(passwordInputLocator);
+//        passwordElement.sendKeys(password);
+//
+//        WebElement loginButton = driver.findElement(loginButtonLocator);
+//        loginButton.click();
+//    }
 
     public void navigateToHighlightsManager() {
         WebElement menuBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(menuToggleLocator));
