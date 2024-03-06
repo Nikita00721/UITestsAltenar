@@ -21,8 +21,7 @@ public class FrontTests {
     }
 
     @Test
-    @Description("F01 Открытие сайта пользователя под определенным языком")
-    public void languageFrontTest() throws InterruptedException {
+    @Description("F01 Opens the user's site in a specific language")    public void languageFrontTest() throws InterruptedException {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         driver.get("https://sb2clientstatic-altenar2-stage.biahosted.com/?integration=skintest#/");
@@ -45,7 +44,7 @@ public class FrontTests {
     }
 
     @Test
-    @Description("F03 Переход на страницу Highlights по спорту")
+    @Description("F03 Go to Sports Highlights page")
     public void openHighlightsTest() throws InterruptedException {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://sb2clientstatic-altenar2-stage.biahosted.com/#/");

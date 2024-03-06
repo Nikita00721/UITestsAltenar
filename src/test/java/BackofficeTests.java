@@ -49,8 +49,7 @@ public class BackofficeTests {
     }
 
     @Test
-    @Description("B03 Добавление события в Highlights вручную с помощью интерфейса Highlight Manager для языка default")
-    public void addHighlightTest() throws InterruptedException {
+    @Description("B03 Adding an event to Highlights manually using the Highlight Manager interface for the default language")    public void addHighlightTest() throws InterruptedException {
         int beforeCount = backofficePage.getHighlightsCount();
 
         backofficePage.selectSport(0);
@@ -65,7 +64,7 @@ public class BackofficeTests {
     }
 
     @Test
-    @Description("B04 Изменение количества событий в списке добавления для вида спорта путем изменения фильтров по дате путем изменения значений в поле “To”")
+    @Description("B04 Change the number of events in the add list for a sport by changing date filters by changing the values in the “To” field")
     public void changeDateTest() throws InterruptedException {
 
         int countBefore = backofficePage.getSportsCountFromDate();
@@ -84,8 +83,7 @@ public class BackofficeTests {
     }
 
     @Test
-    @Description("B05 Сортировка спортов на сайте backoffice с помощью drag-n-drop")
-    public void sortSportsTest() throws InterruptedException {
+    @Description("B05 Sorting sports on the backoffice website using drag-n-drop")    public void sortSportsTest() throws InterruptedException {
         Thread.sleep(2000);
         WebElement draggableElement1 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[2]/div/div[1]/div"));
         WebElement draggableElement2 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]/div"));
@@ -119,7 +117,7 @@ public class BackofficeTests {
         assertEquals(textBeforeDrag2, textAfterDrag1);
     }
     @Test
-    @Description("B06 Отключение добавленного спорта")
+    @Description("B06 Disabling added sports")
     public void deleteSportTest(){
         int beforeCount = backofficePage.getTypeCount();
 
@@ -136,7 +134,7 @@ public class BackofficeTests {
         assertEquals(beforeCount-1, afterCount);
     }
     @Test
-    @Description("B07 Выставление статуса событий")
+    @Description("B07 Event status setting")
     public void statusEventTest() throws InterruptedException {
 
         List<WebElement> promoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='2']"));
@@ -164,8 +162,7 @@ public class BackofficeTests {
     }
 
     @Test
-    @Description("B08 Добавление нового языка в Customization languages")
-    public void addLanguageTest() throws InterruptedException {
+    @Description("B08 Adding a new language to Customization languages")    public void addLanguageTest() throws InterruptedException {
         Thread.sleep(1000);
 
         WebElement editBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[3]/div/div/div/div[2]/span/button"));
@@ -188,8 +185,7 @@ public class BackofficeTests {
     }
 
     @Test
-    @Description("B09 Копирование событий из default языка в любой другой")
-    public void copyEventsTest() throws InterruptedException {
+    @Description("B09 Copying events from default language to any other")    public void copyEventsTest() throws InterruptedException {
         Thread.sleep(1000);
 
         List<String> eventDefaultTexts = backofficePage.getTextHighlights();

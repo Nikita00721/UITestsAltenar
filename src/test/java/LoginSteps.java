@@ -15,8 +15,7 @@ public class LoginSteps {
         this.loginPage = new LoginPage(driver);
     }
 
-    @Step("Выполнение входа в backoffice c логином {username} и паролем {password}")
-    public void login(String username, String password) {
+    @Step("Login to backoffice with login {username} and password {password}")    public void login(String username, String password) {
         loginPage.acceptCookies();
         loginPage.setUsername(username);
         loginPage.setPassword(password);
