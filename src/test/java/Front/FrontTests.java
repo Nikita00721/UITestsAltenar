@@ -1,5 +1,7 @@
+package Front;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,33 +16,45 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FrontTests {
     private WebDriver driver;
+    private FrontPage frontPage;
 
     @BeforeEach
     public void setUp() {
         driver = new ChromeDriver();
+        frontPage = new FrontPage(driver);
     }
+
+    @Step("Verify site language is intentionally set to Default")
+    public void verifySiteLanguageDefault(String expectedText, String actualText, String message) {
+        assertEquals(expectedText, actualText);
+    }
+    @Step("Verify site language is intentionally set to Spanish")
+    public void verifySiteLanguageSpanish(String expectedText, String actualText, String message) {
+        assertEquals(expectedText, actualText);
+    }
+    @Step("Verify site language is intentionally set to English")
+    public void verifySiteLanguageEnglish(String expectedText, String actualText, String message) {
+        assertEquals(expectedText, actualText);
+    } // можно ли по-другому?
 
     @Test
     @Description("F01 Opens the user's site in a specific language")    public void languageFrontTest() throws InterruptedException {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         driver.get("https://sb2clientstatic-altenar2-stage.biahosted.com/?integration=skintest#/");
-        WebElement element = driver.findElement(By.cssSelector("div.asb-nowrap.asb-text-center"));
-        String actualText = element.getText();
+        String actualText = frontPage.getAcceptText();
         String expectedText = "LIVE";
-        assertEquals(expectedText, actualText);
+        verifySiteLanguageDefault(expectedText, actualText, "Opening the site in default language (English)");
 
         driver.get("https://sb2clientstatic-altenar2-stage.biahosted.com/?integration=skintest&culture=es-es#/");
-        WebElement element2 = driver.findElement(By.cssSelector("div.asb-nowrap.asb-text-center"));
-        String actualText2 = element2.getText();
+        String actualText2 = frontPage.getAcceptText();
         String expectedText2 = "EN VIVO";
-        assertEquals(expectedText2, actualText2);
+        verifySiteLanguageSpanish(expectedText2, actualText2, "Opening the site in Spanish");
 
         driver.get("https://sb2clientstatic-altenar2-stage.biahosted.com/?integration=skintest&culture=en-gb#/");
-        WebElement element3 = driver.findElement(By.cssSelector("div.asb-nowrap.asb-text-center"));
-        String actualText3 = element3.getText();
+        String actualText3 = frontPage.getAcceptText();
         String expectedText3 = "LIVE";
-        assertEquals(expectedText3, actualText3);
+        verifySiteLanguageEnglish(expectedText3, actualText3, "Opening the site intentionally in English");
     }
 
     @Test

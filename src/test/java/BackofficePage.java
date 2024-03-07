@@ -27,21 +27,6 @@ public class BackofficePage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-
-//    public void login(String username, String password) {
-//        WebElement acceptButton = driver.findElement(acceptCookieButton);
-//        acceptButton.click();
-//
-//        WebElement inputElement = driver.findElement(usernameInputLocator);
-//        inputElement.sendKeys(username);
-//
-//        WebElement passwordElement = driver.findElement(passwordInputLocator);
-//        passwordElement.sendKeys(password);
-//
-//        WebElement loginButton = driver.findElement(loginButtonLocator);
-//        loginButton.click();
-//    }
-
     public void navigateToHighlightsManager() {
         WebElement menuBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(menuToggleLocator));
         menuBtn.click();
@@ -56,6 +41,26 @@ public class BackofficePage {
         configBtn.click();
     }
 
+    public void clickMenuBtn(){
+        WebElement menuBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(menuToggleLocator));
+        menuBtn.click();
+    }
+
+    public void clickSkinManager(){
+        WebElement skinManagementBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(skinManagementLocator));
+        skinManagementBtn.click();
+    }
+
+    public void clickHighManagement(){
+        WebElement highManagementBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(highlightsManagerLocator));
+        highManagementBtn.click();
+    }
+
+    public void clickConfigBtn(){
+        WebElement configBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(configButtonLocator));
+        configBtn.click();
+    }
+
     public void clickSaveButton() {
         WebElement saveButton = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div[1]/button"));
         saveButton.click();
@@ -63,39 +68,46 @@ public class BackofficePage {
 
     // для testAddSportsType
     public void clickPlusButton() {
-        WebElement plusBtn = driver.findElement(By.cssSelector("#root > div.sc-jNJNQp.itcayF.MuiContainer-root.MuiContainer-maxWidthLg.Containerstyles__Container-sc-5e10iy-0.cZPkBK > div > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.HighlightManagerDetailsstyles__SportsColumnWrapper-sc-164e4hn-0.kDELCj.zaIWL > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.AddSportTreestyles__AddSportsWrapper-sc-4ihpuk-0.Nfghw.jUlrGr > div"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[1]/div")));
+        WebElement plusBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[1]/div"));
         plusBtn.click();
     }
 
     public void selectSportType(int index) {
-        List<WebElement> sportsCheck = driver.findElements(By.cssSelector(".RowWrapperstyles__RowWrapper-sc-gthg2c-0.AddSportTreeItemstyles__SportMenuItem-sc-1wt9mdf-0.bVmYst.euhOnO"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[1]/div[2]/div/div/div[2]/div")));
+        List<WebElement> sportsCheck = driver.findElements(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[1]/div[2]/div/div/div[2]/div"));
         sportsCheck.get(index).click();
     }
 
     public void clickApplyButton() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[1]/div[2]/div/div/div[3]/button[2]")));
         WebElement applyBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[1]/div[2]/div/div/div[3]/button[2]"));
         applyBtn.click();
     }
 
     public int getSportsCount() {
-        List<WebElement> sportsElements = driver.findElements(By.cssSelector(".ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.Nfghw"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        List<WebElement> sportsElements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.Nfghw")));
         return sportsElements.size();
     }
 
     // для testAddHighlight
     public void selectSport(int sportIndex) {
-        WebElement parentElement = driver.findElement(By.className("SportsTreestyles__SettingsSportList-sc-lmb9fb-1"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0")));
+        WebElement parentElement = driver.findElement(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0"));
         List<WebElement> childElements = parentElement.findElements(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0"));
         childElements.get(sportIndex).click();
     }
 
     public void selectCategory(int categoryIndex) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0")));
         WebElement newParentElement = driver.findElement(By.className("ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0"));
         List<WebElement> newChildElements = newParentElement.findElements(By.className("CategoryItemstyles__CategoryItemWrapper-sc-1t3o7aa-0"));
         newChildElements.get(categoryIndex).click();
     }
 
-    public void selectChampionship(int championshipIndex) {
+    public void selectChampionship() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ChampItemstyles__ChampWrapper-sc-10265qg-0")));
         WebElement nestedElement = driver.findElement(By.className("ChampItemstyles__ChampWrapper-sc-10265qg-0"));
         nestedElement.click();
     }
@@ -107,6 +119,7 @@ public class BackofficePage {
     }
 
     public int getHighlightsCount() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='RowWrapperstyles__RowWrapper-sc-gthg2c-0 bVmYst']")));
         List<WebElement> highlightElements = driver.findElements(By.xpath("//div[@class='RowWrapperstyles__RowWrapper-sc-gthg2c-0 bVmYst']"));
         return highlightElements.size();
     }

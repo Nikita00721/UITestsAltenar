@@ -1,5 +1,6 @@
+import Login.LoginSteps;
 import io.qameta.allure.Description;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,10 +11,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 import java.util.List;
+import java.util.Properties;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(TestListener.class)
@@ -22,44 +29,60 @@ public class BackofficeTests {
     private BackofficePage backofficePage;
     private BackofficeSteps backofficeSteps;
     private LoginSteps loginSteps;
+    private String username;
+    private String password;
 
     @BeforeEach
     public void setUp() {
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.get("https://sb2admin-altenar2-stage.biahosted.com/");
-        backofficePage = new BackofficePage(driver);
-        loginSteps.login("test_user_qa1", "f4{LRDiM4$");
-        backofficePage.navigateToHighlightsManager();
+        try {
+            Properties properties = new Properties();
+            properties.load(new FileInputStream("src/test/resources/config.properties"));
+
+            username = properties.getProperty("username");
+            password = properties.getProperty("password");
+
+            if (username == null || password == null) {
+                throw new RuntimeException("Username or password not provided in config.properties.");
+            }
+
+            driver = new ChromeDriver();
+            backofficePage = new BackofficePage(driver);
+            loginSteps = new LoginSteps(driver);
+            backofficeSteps = new BackofficeSteps(driver);
+            driver.get("https://sb2admin-altenar2-stage.biahosted.com/");
+            loginSteps.login(username, password);
+            backofficeSteps.navigateToHighlightsManager();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    @Description("B02 Добавление видов спорта в Highlights manager, для которых в дальнейшем будут добавляться события")
+    @Description("B02 Adding sports to the Highlights manager, for which events will be added in the future")
     public void addSportsTypeTest() throws InterruptedException {
         int beforeCount = backofficePage.getSportsCount();
-
         backofficePage.clickPlusButton();
         backofficePage.selectSportType(1);
         backofficePage.clickApplyButton();
-
         //backofficePage.clickSaveButton();
         int afterCount = backofficePage.getSportsCount();
-
         assertEquals(beforeCount +  1, afterCount);
     }
 
     @Test
-    @Description("B03 Adding an event to Highlights manually using the Highlight Manager interface for the default language")    public void addHighlightTest() throws InterruptedException {
+    @Description("B03 Adding an event to Highlights manually using the Highlight Manager interface for the default language")
+    public void addHighlightTest() throws InterruptedException {
         int beforeCount = backofficePage.getHighlightsCount();
-
-        backofficePage.selectSport(0);
+        System.out.println(beforeCount);
+        backofficePage.selectSport(1);
         backofficePage.selectCategory(0);
-        backofficePage.selectChampionship(0);
+        backofficePage.selectChampionship();
         Thread.sleep(2000);
         backofficePage.addHighlight();
-        //backofficePage.clickSaveButton();
 
         int afterCount = backofficePage.getHighlightsCount();
+        System.out.println(afterCount);
+
         assertEquals(beforeCount, afterCount -  1);
     }
 
