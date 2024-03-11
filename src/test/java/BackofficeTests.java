@@ -73,16 +73,11 @@ public class BackofficeTests {
     @Description("B03 Adding an event to Highlights manually using the Highlight Manager interface for the default language")
     public void addHighlightTest() throws InterruptedException {
         int beforeCount = backofficePage.getHighlightsCount();
-        System.out.println(beforeCount);
-        backofficePage.selectSport(1);
-        backofficePage.selectCategory(0);
-        backofficePage.selectChampionship();
-        Thread.sleep(2000);
+
+        backofficeSteps.chooseChampionship();
         backofficePage.addHighlight();
 
         int afterCount = backofficePage.getHighlightsCount();
-        System.out.println(afterCount);
-
         assertEquals(beforeCount, afterCount -  1);
     }
 

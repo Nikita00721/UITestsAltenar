@@ -26,4 +26,12 @@ public class BackofficeSteps {
         backofficePage.clickConfigBtn();
     }
 
+    @Step("Choosing the first championship in the first sport")
+    public void chooseChampionship() throws InterruptedException {
+        backofficePage.selectSport(1);
+        backofficePage.selectCategory(0);
+        backofficePage.selectChampionship();
+        Thread.sleep(2000);
+    }
+
 }
