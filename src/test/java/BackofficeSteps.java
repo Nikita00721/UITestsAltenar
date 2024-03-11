@@ -6,6 +6,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class BackofficeSteps {
     private WebDriver driver;
@@ -39,5 +41,30 @@ public class BackofficeSteps {
         backofficePage.clickPlusButton();
         backofficePage.selectSportType(1);
         backofficePage.clickApplyButton();
+    }
+
+    @Step("Increase the value of the current year by 2")
+    public String increaseYear(){
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime updatedDateTime = currentDateTime.plusYears(2);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
+        String newYear = updatedDateTime.format(formatter);
+        return newYear;
+    }
+
+    @Step("Change date to {newYear}")
+    public void changeDate(String newYear) {
+        backofficePage.changeDate(newYear);
+    }
+
+    @Step("Dragging the second sport in place of the first")
+    public void dragging(){
+        backofficePage.dragndropElements();
+    }
+
+    @Step("Deleting a sport and confirming deletion")
+    public void deleteSport(){
+        backofficePage.clickCheckSport();
+        backofficePage.clickDeleteButton();
     }
 }

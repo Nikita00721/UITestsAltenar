@@ -76,80 +76,39 @@ public class BackofficeTests {
         backofficeSteps.chooseChampionship();
         backofficePage.addHighlight();
         int afterCount = backofficePage.getHighlightsCount();
-        assertEquals(beforeCount, afterCount -  1);
+        assertEquals(beforeCount, afterCount -  1, "The number of events has not changed");
     }
 
     @Test
     @Description("B04 Change the number of events in the add list for a sport by changing date filters by changing the values in the “To” field")
     public void changeDateTest() throws InterruptedException {
-
         int countBefore = backofficePage.getSportsCountFromDate();
-
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDateTime updatedDateTime = currentDateTime.plusYears(2);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
-        String newYear = updatedDateTime.format(formatter);
-        backofficePage.changeDate(newYear);
-
-        Thread.sleep(3000);
-
+        String newYear = backofficeSteps.increaseYear();
+        backofficeSteps.changeDate(newYear);
+        Thread.sleep(1000);
         int countAfter = backofficePage.getSportsCountFromDate();
-
-        assertTrue(countBefore < countAfter);
+        assertTrue(countBefore < countAfter, "The number of events has not changed compared to the previous date (increased by two years)");
     }
 
     @Test
-    @Description("B05 Sorting sports on the backoffice website using drag-n-drop")    public void sortSportsTest() throws InterruptedException {
-        Thread.sleep(2000);
-        WebElement draggableElement1 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[2]/div/div[1]/div"));
-        WebElement draggableElement2 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]/div"));
-
-        WebElement textDraggableElement1 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]"));
-        WebElement textDraggableElement2 = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[2]/div/div[1]"));
-
-        String textBeforeDrag1 = textDraggableElement1.getText();
-        String textBeforeDrag2 = textDraggableElement2.getText();
-
-        Actions actions = new Actions(driver);
-
-        actions.clickAndHold(draggableElement1)
-                .pause(Duration.ofSeconds(1))
-                .moveToElement(draggableElement2)
-                .pause(Duration.ofSeconds(1))
-                .moveByOffset(0, -50) // Понимаю, что так лучше не делать, но выбора нет, 3 часа уже сижу, не работает по-другому
-                .pause(Duration.ofSeconds(1))
-                .release()
-                .build()
-                .perform();
-        Thread.sleep(2000);
-
-
-        String textAfterDrag2 = textDraggableElement1.getText();
-        String textAfterDrag1 = textDraggableElement2.getText();
-
-        assertNotEquals(textBeforeDrag1, textAfterDrag1);
-        assertNotEquals(textBeforeDrag2, textAfterDrag2);
-        assertEquals(textBeforeDrag1, textAfterDrag2);
-        assertEquals(textBeforeDrag2, textAfterDrag1);
+    @Description("B05 Sorting sports on the backoffice website using drag-n-drop")
+    public void sortSportsTest() throws InterruptedException {
+        String beforeText = backofficePage.getBeforeDraggableText();
+        backofficeSteps.dragging();
+        String afterText = backofficePage.getAfterDraggableText();
+        assertEquals(beforeText, afterText, "The order of the elements has not changed");
     }
+
     @Test
     @Description("B06 Disabling added sports")
     public void deleteSportTest() throws InterruptedException {
-        Thread.sleep(2000);
         int beforeCount = backofficePage.getTypeCount();
-
-        WebElement checkSport = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]/span/input"));
-        checkSport.click();
-
-        WebElement deleteBtn = driver.findElement(By.cssSelector("#root > div.sc-jNJNQp.itcayF.MuiContainer-root.MuiContainer-maxWidthLg.Containerstyles__Container-sc-5e10iy-0.cZPkBK > div > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.HighlightManagerDetailsstyles__SportsColumnWrapper-sc-164e4hn-0.kDELCj.zaIWL > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.SportsTreestyles__SettingsSportWrapper-sc-lmb9fb-0.Nfghw.rphir > div > div.RowWrapperstyles__RowWrapper-sc-gthg2c-0.DeleteLabelstyles__LabelWrapper-sc-1618v5l-0.iAJxlh.dsZhJl > span > button"));
-        deleteBtn.click();
-
+        backofficeSteps.deleteSport();
         //backofficePage.clickSaveButton();
-
         int afterCount = backofficePage.getTypeCount();
-
-        assertEquals(beforeCount-1, afterCount);
+        assertEquals(beforeCount-1, afterCount, "The number of events has not changed");
     }
+
     @Test
     @Description("B07 Event status setting")
     public void statusEventTest() throws InterruptedException {

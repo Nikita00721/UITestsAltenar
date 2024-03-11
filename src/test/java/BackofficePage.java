@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
@@ -31,6 +32,13 @@ public class BackofficePage {
     private By typeCount = By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div");
     private By languagesList = By.cssSelector("div.MenuItemstyles__Item-sc-1yvs3jx-0");
     private By language = By.cssSelector("input.sc-fXqpFg");
+    private By draggableSport1 = By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]");
+    private By draggableSport2 = By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[2]/div/div[1]");
+    private By draggableElement1 = By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[2]/div/div[1]/div");
+    private By draggableElement2 = By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]/div");
+    private By checkBoxSport = By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]/span/input");
+    private By deleteBtn = By.cssSelector("#root > div.sc-jNJNQp.itcayF.MuiContainer-root.MuiContainer-maxWidthLg.Containerstyles__Container-sc-5e10iy-0.cZPkBK > div > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.HighlightManagerDetailsstyles__SportsColumnWrapper-sc-164e4hn-0.kDELCj.zaIWL > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.SportsTreestyles__SettingsSportWrapper-sc-lmb9fb-0.Nfghw.rphir > div > div.RowWrapperstyles__RowWrapper-sc-gthg2c-0.DeleteLabelstyles__LabelWrapper-sc-1618v5l-0.iAJxlh.dsZhJl > span > button");
+
 
     public BackofficePage(WebDriver driver) {
         this.driver = driver;
@@ -134,6 +142,7 @@ public class BackofficePage {
     }
 
     public int getTypeCount() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(typeCount));
         List<WebElement> afterCheck = driver.findElements(typeCount);
         int rezult = afterCheck.size();
         return rezult;
@@ -155,5 +164,51 @@ public class BackofficePage {
          String countryName = languages.get(index).getText();
         countryName = countryName.toUpperCase();
         return countryName;
+    }
+
+    public String getBeforeDraggableText(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(draggableSport1));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(draggableSport2));
+        WebElement textDraggableElement1 = driver.findElement(draggableSport1);
+        String textBeforeDrag1 = textDraggableElement1.getText();
+        WebElement textDraggableElement2 = driver.findElement(draggableSport2);
+        String textBeforeDrag2 = textDraggableElement2.getText();
+        return (textBeforeDrag1+textBeforeDrag2);
+    }
+
+    public String getAfterDraggableText() throws InterruptedException {
+        Thread.sleep(500);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(draggableSport1));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(draggableSport2));
+        WebElement textDraggableElement1 = driver.findElement(draggableSport2);
+        String textBeforeDrag1 = textDraggableElement1.getText();
+        WebElement textDraggableElement2 = driver.findElement(draggableSport1);
+        String textBeforeDrag2 = textDraggableElement2.getText();
+        return (textBeforeDrag1+textBeforeDrag2);
+    }
+
+    public void dragndropElements() {
+        WebElement Element1 = driver.findElement(draggableElement1);
+        WebElement Element2 = driver.findElement(draggableElement2);
+        Actions actions = new Actions(driver);
+        actions.clickAndHold(Element1)
+                .pause(Duration.ofSeconds(1))
+                .moveToElement(Element2)
+                .pause(Duration.ofSeconds(1))
+                .moveByOffset(0, -50) // Понимаю, что так лучше не делать, но выбора нет, 3 часа уже сижу, не работает по-другому
+                .pause(Duration.ofSeconds(1))
+                .release()
+                .build()
+                .perform();
+    }
+
+    public void clickCheckSport(){
+        WebElement checkSport = driver.findElement(checkBoxSport);
+        checkSport.click();
+    }
+
+    public void clickDeleteButton(){
+        WebElement deleteButton = driver.findElement(deleteBtn);
+        deleteButton.click();
     }
 }
