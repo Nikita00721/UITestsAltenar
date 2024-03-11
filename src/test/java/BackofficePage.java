@@ -38,7 +38,9 @@ public class BackofficePage {
     private By draggableElement2 = By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]/div");
     private By checkBoxSport = By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]/span/input");
     private By deleteBtn = By.cssSelector("#root > div.sc-jNJNQp.itcayF.MuiContainer-root.MuiContainer-maxWidthLg.Containerstyles__Container-sc-5e10iy-0.cZPkBK > div > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.HighlightManagerDetailsstyles__SportsColumnWrapper-sc-164e4hn-0.kDELCj.zaIWL > div.ColumnWrapperstyles__ColumnWrapper-sc-1qm7qn3-0.SportsTreestyles__SettingsSportWrapper-sc-lmb9fb-0.Nfghw.rphir > div > div.RowWrapperstyles__RowWrapper-sc-gthg2c-0.DeleteLabelstyles__LabelWrapper-sc-1618v5l-0.iAJxlh.dsZhJl > span > button");
-
+    private By promoEvent = By.cssSelector("[data-rbd-draggable-context-id='2']");
+    private By noPromoEvent = By.cssSelector("[data-rbd-draggable-context-id='0']");
+    private By promoSpan = By.xpath("//span[@aria-label='is promo']/button");
 
     public BackofficePage(WebDriver driver) {
         this.driver = driver;
@@ -210,5 +212,24 @@ public class BackofficePage {
     public void clickDeleteButton(){
         WebElement deleteButton = driver.findElement(deleteBtn);
         deleteButton.click();
+    }
+
+    public int getPromoEventListSize(){
+        List<WebElement> promoElements = driver.findElements(promoEvent);
+        int PromoCount = promoElements.size();
+        return PromoCount;
+    }
+
+    public int getNoPromoEventListSize(){
+        List<WebElement> noPromoElements = driver.findElements(noPromoEvent);
+        int NoPromoCount = noPromoElements.size();
+        return NoPromoCount;
+    }
+
+    public void promoClick(){
+        List<WebElement> noPromoElements = driver.findElements(noPromoEvent);
+        WebElement firstElement = noPromoElements.get(noPromoElements.size()-1);
+        WebElement button = firstElement.findElement(promoSpan);
+        button.click();
     }
 }

@@ -67,4 +67,10 @@ public class BackofficeSteps {
         backofficePage.clickCheckSport();
         backofficePage.clickDeleteButton();
     }
+
+    @Step("Setting promo status for the last event in the list. Before status - Promo events: {promoCount} | No promo events: {noPromoCount}")
+    public void setPromoStatus(int promoCount, int noPromoCount){
+        backofficePage.promoClick();
+    }
+
 }

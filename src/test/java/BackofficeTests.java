@@ -113,28 +113,16 @@ public class BackofficeTests {
     @Description("B07 Event status setting")
     public void statusEventTest() throws InterruptedException {
         Thread.sleep(2000);
-        List<WebElement> promoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='2']"));
-        List<WebElement> noPromoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='0']"));
-        int beforePromoCount = promoElements.size();
-        int beforeNoPromoCount = noPromoElements.size();
-        System.out.println(beforeNoPromoCount);
-        System.out.println(beforePromoCount);
+        int beforePromoCount = backofficePage.getPromoEventListSize();
+        int beforeNoPromoCount = backofficePage.getNoPromoEventListSize();
 
-        WebElement firstElement = noPromoElements.get(noPromoElements.size()-1);
-        WebElement button = firstElement.findElement(By.xpath("//span[@aria-label='is promo']/button"));
+        backofficeSteps.setPromoStatus(beforePromoCount, beforeNoPromoCount);
 
-        button.click();
+        int afterPromoCount = backofficePage.getPromoEventListSize();
+        int afterNoPromoCount = backofficePage.getNoPromoEventListSize();
 
-        List<WebElement> promoElements2 = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='2']"));
-        List<WebElement> noPromoElements2 = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='0']"));
-        int afterPromoCount = promoElements2.size();
-        int afterNoPromoCount = noPromoElements2.size();
-
-        System.out.println(afterNoPromoCount);
-        System.out.println(afterPromoCount);
-
-        assertEquals(beforePromoCount + 1, afterPromoCount);
-        assertEquals(beforeNoPromoCount - 1, afterNoPromoCount);
+        assertEquals(beforePromoCount + 1, afterPromoCount, "Number of promo events is not increased");
+        assertEquals(beforeNoPromoCount - 1, afterNoPromoCount, "Number of no promo events is not increased");
     }
 
     @Test
