@@ -1,4 +1,5 @@
 import Login.LoginSteps;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,22 +62,19 @@ public class BackofficeTests {
     @Description("B02 Adding sports to the Highlights manager, for which events will be added in the future")
     public void addSportsTypeTest() throws InterruptedException {
         int beforeCount = backofficePage.getSportsCount();
-        backofficePage.clickPlusButton();
-        backofficePage.selectSportType(1);
-        backofficePage.clickApplyButton();
+        backofficeSteps.addSport();
         //backofficePage.clickSaveButton();
+        Thread.sleep(1000);
         int afterCount = backofficePage.getSportsCount();
-        assertEquals(beforeCount +  1, afterCount);
+        assertEquals(beforeCount +  1, afterCount, "The count of sports after adding is not as expected.");
     }
 
     @Test
     @Description("B03 Adding an event to Highlights manually using the Highlight Manager interface for the default language")
     public void addHighlightTest() throws InterruptedException {
         int beforeCount = backofficePage.getHighlightsCount();
-
         backofficeSteps.chooseChampionship();
         backofficePage.addHighlight();
-
         int afterCount = backofficePage.getHighlightsCount();
         assertEquals(beforeCount, afterCount -  1);
     }
@@ -136,7 +134,8 @@ public class BackofficeTests {
     }
     @Test
     @Description("B06 Disabling added sports")
-    public void deleteSportTest(){
+    public void deleteSportTest() throws InterruptedException {
+        Thread.sleep(2000);
         int beforeCount = backofficePage.getTypeCount();
 
         WebElement checkSport = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]/span/input"));
@@ -154,7 +153,7 @@ public class BackofficeTests {
     @Test
     @Description("B07 Event status setting")
     public void statusEventTest() throws InterruptedException {
-
+        Thread.sleep(2000);
         List<WebElement> promoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='2']"));
         List<WebElement> noPromoElements = driver.findElements(By.cssSelector("[data-rbd-draggable-context-id='0']"));
         int beforePromoCount = promoElements.size();

@@ -24,20 +24,23 @@ public class LoginPageTests {
     }
 
     @Test
-    @Description("B01 Authorization in BO Highlight Manager with the correct username and password")    public void loginTest() {
+    @Description("B01 Authorization in BO Highlight Manager with the correct username and password")
+    public void loginTest() {
         loginSteps.login("test_user_qa1", "f4{LRDiM4$");
         assertTrue(driver.getTitle().contains("Home Page"));
     }
 
     @Test
-    @Description("B01 Authorization in BO Highlight Manager with incorrect login and password")    public void invalidLoginTest() {
+    @Description("B01 Authorization in BO Highlight Manager with incorrect login and password")
+    public void invalidLoginTest() {
         loginSteps.login("invalid_username", "invalid_password");
 
         assertTrue(loginPage.isErrorMessageDisplayed());
     }
 
     @Test
-    @Description("B01 Authorization in BO Highlight Manager with empty login and password")    public void emptyFieldsLoginTest() {
+    @Description("B01 Authorization in BO Highlight Manager with empty login and password")
+    public void emptyFieldsLoginTest() {
         loginSteps.login("", "");
 
         assertEquals("https://sb2admin-altenar2-stage.biahosted.com/Account/Login?ReturnUrl=%2F", driver.getCurrentUrl());
