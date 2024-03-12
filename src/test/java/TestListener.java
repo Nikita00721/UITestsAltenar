@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TestListener implements TestWatcher {
-
     private static final Logger LOGGER = Logger.getLogger(TestListener.class.getName());
     private WebDriver driver;
 

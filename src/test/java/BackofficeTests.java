@@ -1,29 +1,18 @@
 import Login.LoginSteps;
-import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.Duration;
 import java.util.List;
 import java.util.Properties;
-import java.util.Scanner;
-
 import static org.junit.jupiter.api.Assertions.*;
+
 @ExtendWith(TestListener.class)
 public class BackofficeTests {
     protected static WebDriver driver;
@@ -53,6 +42,8 @@ public class BackofficeTests {
             driver.get("https://sb2admin-altenar2-stage.biahosted.com/");
             loginSteps.login(username, password);
             backofficeSteps.navigateToHighlightsManager();
+            TestListener testListener = new TestListener();
+            testListener.setDriver(driver);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -147,8 +138,8 @@ public class BackofficeTests {
         assertEquals(eventDefaultTexts, eventDefaultTextsAfter);
     }
 
-//    @AfterEach
-//    public void tearDown() {
-//        driver.quit();
-//    }
+    @AfterEach
+    public void tearDown() {
+        driver.quit();
+    }
 }
