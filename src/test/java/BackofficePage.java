@@ -44,6 +44,8 @@ public class BackofficePage {
     private By editBtn = By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[3]/div/div/div/div[2]/span/button");
     private By plusLanguageBtn = By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[3]/div/div/div/div[2]/div/button[2]");
     private By addLanguageBtn = By.cssSelector("body > div.sc-hlLBRy.jvspes.sc-dvEHMn.MuiPopover-root.MuiModal-root > div.sc-eDvSVe.bUXwaY.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.sc-jsTgWu.bXhvey.MuiPopover-paper > div > div.RowWrapperstyles__RowWrapper-sc-gthg2c-0.ConfirmFooterMui5styles__ButtonsContainer-sc-lkpjsq-0.eXnrkT.dbemOZ > button.sc-jrcTuL.gTJIsS.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.sc-hTBuwn.gxmZir.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.ConfirmFooterMui5styles__Button-sc-lkpjsq-1.dJfqnc");
+    private By languageLabel = By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']");
+    private By copyBtn = By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[4]/div/div[2]/div[2]/button");
     public BackofficePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -153,6 +155,7 @@ public class BackofficePage {
     }
 
     public List<String> getTextHighlights() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(highlightsCount));
         List<WebElement> eventsDefault = driver.findElements(highlightsCount);
         List<String> eventDefaultTexts = new ArrayList<>();
         for (WebElement event : eventsDefault) {
@@ -253,14 +256,34 @@ public class BackofficePage {
     }
 
     public int getLanguageListSize(){
-        List<WebElement> languagesBtn = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
+        List<WebElement> languagesBtn = driver.findElements(languageLabel);
         int size = languagesBtn.size();
         return size;
     }
 
     public String getLanguageText(){
-        List<WebElement> languagesBtn = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
+        List<WebElement> languagesBtn = driver.findElements(languageLabel);
         String rezult = languagesBtn.get(languagesBtn.size()-1).getText();
         return rezult;
+    }
+
+    public String secondLanguageClick(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(languageLabel));
+        List<WebElement> languagesBtn = driver.findElements(languageLabel);
+        languagesBtn.get(1).click();
+        String rezult = languagesBtn.get(1).getText();
+        return rezult;
+    }
+
+    public void copyButtonClick(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(copyBtn));
+        WebElement copyButton = driver.findElement(copyBtn);
+        copyButton.click();
+    }
+
+    public void clickAndClick(int index){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(languageLabel));
+        List<WebElement> languagesBtn = driver.findElements(languageLabel);
+        languagesBtn.get(index).click();
     }
 }

@@ -83,4 +83,21 @@ public class BackofficeSteps {
     public void addLanguage(String languageName){
         backofficePage.addLanguageClick();
     }
+
+    @Step("Click to second language in language list and get his name")
+    public String clickSecondLanguage(){
+        String language = backofficePage.secondLanguageClick();
+        return language;
+    }
+
+    @Step("Copy any event default language to {language} language")
+    public void copyClick(String language){
+        backofficePage.copyButtonClick();
+    }
+
+    @Step("Overclicking to default and second language")
+    public void overclicking(){
+        backofficePage.clickAndClick(0);
+        backofficePage.clickAndClick(1);
+    }
 }

@@ -136,20 +136,13 @@ public class BackofficeTests {
     }
 
     @Test
-    @Description("B09 Copying events from default language to any other")    public void copyEventsTest() throws InterruptedException {
-        Thread.sleep(1000);
-
+    @Description("B09 Copying events from default language to any other")
+    public void copyEventsTest() throws InterruptedException {
         List<String> eventDefaultTexts = backofficePage.getTextHighlights();
 
-        List<WebElement> languagesBtn = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
-        languagesBtn.get(1).click();
-
-        WebElement copyBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[4]/div/div[2]/div[2]/button"));
-        copyBtn.click();
-
-        //languagesBtn.get(0).click();
-        //languagesBtn.get(1).click();
-
+        String language = backofficeSteps.clickSecondLanguage();
+        backofficeSteps.copyClick(language);
+        backofficeSteps.overclicking();
         List<String> eventDefaultTextsAfter = backofficePage.getTextHighlights();
         assertEquals(eventDefaultTexts, eventDefaultTextsAfter);
     }
