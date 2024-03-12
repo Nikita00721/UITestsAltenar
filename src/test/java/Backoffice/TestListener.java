@@ -1,3 +1,5 @@
+package Backoffice;
+
 import io.qameta.allure.Allure;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
