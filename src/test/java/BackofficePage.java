@@ -41,7 +41,9 @@ public class BackofficePage {
     private By promoEvent = By.cssSelector("[data-rbd-draggable-context-id='2']");
     private By noPromoEvent = By.cssSelector("[data-rbd-draggable-context-id='0']");
     private By promoSpan = By.xpath("//span[@aria-label='is promo']/button");
-
+    private By editBtn = By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[3]/div/div/div/div[2]/span/button");
+    private By plusLanguageBtn = By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[3]/div/div/div/div[2]/div/button[2]");
+    private By addLanguageBtn = By.cssSelector("body > div.sc-hlLBRy.jvspes.sc-dvEHMn.MuiPopover-root.MuiModal-root > div.sc-eDvSVe.bUXwaY.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.sc-jsTgWu.bXhvey.MuiPopover-paper > div > div.RowWrapperstyles__RowWrapper-sc-gthg2c-0.ConfirmFooterMui5styles__ButtonsContainer-sc-lkpjsq-0.eXnrkT.dbemOZ > button.sc-jrcTuL.gTJIsS.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.sc-hTBuwn.gxmZir.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.ConfirmFooterMui5styles__Button-sc-lkpjsq-1.dJfqnc");
     public BackofficePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -231,5 +233,34 @@ public class BackofficePage {
         WebElement firstElement = noPromoElements.get(noPromoElements.size()-1);
         WebElement button = firstElement.findElement(promoSpan);
         button.click();
+    }
+
+    public void editLanguageButtonClick(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(editBtn));
+        WebElement editButton = driver.findElement(editBtn);
+        editButton.click();
+    }
+
+    public void plusLanguageButtonClick(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement plusBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(plusLanguageBtn));
+        plusBtn.click();
+    }
+
+    public void addLanguageClick(){
+        WebElement addBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(addLanguageBtn));
+        addBtn.click();
+    }
+
+    public int getLanguageListSize(){
+        List<WebElement> languagesBtn = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
+        int size = languagesBtn.size();
+        return size;
+    }
+
+    public String getLanguageText(){
+        List<WebElement> languagesBtn = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
+        String rezult = languagesBtn.get(languagesBtn.size()-1).getText();
+        return rezult;
     }
 }

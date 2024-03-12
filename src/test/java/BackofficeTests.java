@@ -115,37 +115,24 @@ public class BackofficeTests {
         Thread.sleep(2000);
         int beforePromoCount = backofficePage.getPromoEventListSize();
         int beforeNoPromoCount = backofficePage.getNoPromoEventListSize();
-
         backofficeSteps.setPromoStatus(beforePromoCount, beforeNoPromoCount);
-
         int afterPromoCount = backofficePage.getPromoEventListSize();
         int afterNoPromoCount = backofficePage.getNoPromoEventListSize();
-
         assertEquals(beforePromoCount + 1, afterPromoCount, "Number of promo events is not increased");
         assertEquals(beforeNoPromoCount - 1, afterNoPromoCount, "Number of no promo events is not increased");
     }
 
     @Test
-    @Description("B08 Adding a new language to Customization languages")    public void addLanguageTest() throws InterruptedException {
-        Thread.sleep(1000);
-
-        WebElement editBtn = driver.findElement(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[3]/div/div/div/div[2]/span/button"));
-        editBtn.click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement plusBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div[1]/div/div[2]/div[3]/div/div/div/div[2]/div/button[2]")));
-        plusBtn.click();
-
+    @Description("B08 Adding a new language to Customization languages")
+    public void addLanguageTest() throws InterruptedException {
+        int beforeSize = backofficePage.getLanguageListSize();
+        backofficeSteps.openLanguageAddList();
         String countryName = backofficePage.getCountryName(1);
-
-        WebElement addBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("body > div.sc-hlLBRy.jvspes.sc-dvEHMn.MuiPopover-root.MuiModal-root > div.sc-eDvSVe.bUXwaY.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.sc-jsTgWu.bXhvey.MuiPopover-paper > div > div.RowWrapperstyles__RowWrapper-sc-gthg2c-0.ConfirmFooterMui5styles__ButtonsContainer-sc-lkpjsq-0.eXnrkT.dbemOZ > button.sc-jrcTuL.gTJIsS.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.sc-hTBuwn.gxmZir.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.ConfirmFooterMui5styles__Button-sc-lkpjsq-1.dJfqnc")));
-
-        addBtn.click();
-
+        backofficeSteps.addLanguage(countryName);
+        int afterSize = backofficePage.getLanguageListSize();
         //backofficePage.clickSaveButton();
-
-        //assertEquals(languagesBtn.size(), languagesBtnAfter.size()-1); // Этот тест проваливается потому что добавляется сразу два экземпляра одного и того же языка в список
-        List<WebElement> languagesBtn = driver.findElements(By.cssSelector("button.sc-jrcTuL.MuiButtonBase-root[role='tab']"));
-        assertEquals(languagesBtn.get(languagesBtn.size()-1).getText(), countryName);
+        //assertEquals(beforeSize, afterSize); // Этот тест проваливается потому что добавляется сразу два экземпляра одного и того же языка в список
+        assertEquals(backofficePage.getLanguageText(), countryName);
     }
 
     @Test

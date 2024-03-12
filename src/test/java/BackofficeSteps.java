@@ -73,4 +73,14 @@ public class BackofficeSteps {
         backofficePage.promoClick();
     }
 
+    @Step("Opening a list of languages to add")
+    public void openLanguageAddList(){
+        backofficePage.editLanguageButtonClick();
+        backofficePage.plusLanguageButtonClick();
+    }
+
+    @Step("{languageName} language additions")
+    public void addLanguage(String languageName){
+        backofficePage.addLanguageClick();
+    }
 }
